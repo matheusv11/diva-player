@@ -8,14 +8,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName, TouchableOpacity, View } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -38,6 +38,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
+      {/* <Stack.Group>
+        <Stack.Screen name="Login" component={BottomTabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={BottomTabNavigator} options={{ headerShown: false }} />
+      </Stack.Group> */}
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
@@ -53,43 +57,71 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
+const CustomBarButton = ({children, onPress}) => (
+  <TouchableOpacity
+    style={{
+      // padding: 20,
+      marginLeft: 12,
+      marginRight: 12,
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+    onPress={onPress}
+  >
+    <View style={{
+      alignContent: 'center',
+      justifyContent: 'center',
+      width: 180,
+      height: 50,
+      borderRadius: 8,
+      backgroundColor: 'black'
+    }}>
+      {children} 
+      {/* Renderizar um TEXT talvez */}
+    </View>
+  </TouchableOpacity>
+)
+
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
-      screenOptions={{
+      initialRouteName="Login"
+      screenOptions={{ // Opções globais
+        tabBarIconStyle: { display: "none" },
+        tabBarStyle: { // Não precisa do styleSheet
+          bottom: 25,
+          height: 70,
+          alignItems: 'center',
+          position: 'absolute',
+          borderTopWidth: 0,
+          elevation: 0,
+          backgroundColor: 'red'
+          // backgroundColor: Colors[colorScheme].background
+        },
+        tabBarLabelStyle: {
+          fontWeight: 'bold',
+          fontSize: 16
+        },
+        headerTitleAlign: 'center',
+        headerTitle: "Diva", // SUBSTITUI OS Title das Screens
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
+        name="Login"
+        component={LoginScreen}
+        options={({ navigation }: RootTabScreenProps<'Login'>) => ({
+          title: 'LOGIN',
+          tabBarButton: props => <CustomBarButton {...props} />
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="Register"
+        component={RegisterScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'REGISTRAR',
+          tabBarButton: props => <CustomBarButton {...props} />
         }}
       />
     </BottomTab.Navigator>
