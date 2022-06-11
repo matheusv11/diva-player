@@ -55,7 +55,6 @@ function RootNavigator() {
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 const CustomBarButton = ({children, onPress}) => (
   <TouchableOpacity
@@ -83,55 +82,74 @@ const CustomBarButton = ({children, onPress}) => (
 )
 
 const CustomTabBar = props => (
-  <BottomTabBar {...props} />
+    <BottomTabBar {...props} />
 )
+
+const BottomTab = createBottomTabNavigator<RootTabParamList>();
+
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      tabBar={props => <CustomTabBar {...props}/> }
-      initialRouteName="Login"
-      screenOptions={{ // Opções globais
-        headerTitleAlign: 'center',
-        headerTitleStyle: { color: 'red'},
-        headerTitle: "Diva", // SUBSTITUI OS Title das Screens
-        headerStyle: {backgroundColor: 'orange'},
-        // headerTransparent: true,
-        tabBarIconStyle: { display: "none" },
-        tabBarStyle: { // Não precisa do styleSheet
-          bottom: 25,
-          height: 70,
-          alignItems: 'center',
-          position: 'absolute',
-          borderTopWidth: 0,
-          elevation: 0,
-          backgroundColor: 'red'
-          // backgroundColor: Colors[colorScheme].background
-        },
-        tabBarLabelStyle: {
-          fontWeight: 'bold',
-          fontSize: 16
-        },
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
-      <BottomTab.Screen
-        name="Login"
-        component={LoginScreen}
-        options={({ navigation }: RootTabScreenProps<'Login'>) => ({
-          title: 'LOGIN',
-          tabBarButton: props => <CustomBarButton {...props} />
-        })}
-      />
-      <BottomTab.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{
-          title: 'REGISTRAR',
-          tabBarButton: props => <CustomBarButton {...props} />
-        }}
-      />
-    </BottomTab.Navigator>
+    <View style={{flex: 1}}>
+      <ImageBackground source={require('../assets/images/headset.jpg')} style={{
+        width: "100%",
+        height: "100%",
+        zIndex: -1,
+        opacity: 1,
+        position: 'absolute',
+      }}/>
+      
+      <View style={{flex: 1}}>
+        
+        <BottomTab.Navigator
+          tabBar={props => <CustomTabBar {...props}/> }
+          initialRouteName="Login"
+          screenOptions={{ // Opções globais
+            headerTitleAlign: 'center',
+            headerTitleStyle: { color: 'red'},
+            headerTitle: "DIVA", // SUBSTITUI OS Title das Screens
+            headerStyle: {backgroundColor: 'orange'},
+            // headerTransparent: true,
+            tabBarIconStyle: { display: "none" },
+            tabBarStyle: { // Não precisa do styleSheet
+              bottom: 25,
+              height: 70,
+              alignItems: 'center',
+              position: 'absolute',
+              // elevation: 0,
+              borderTopWidth: 0,
+              backgroundColor: 'red'
+              // backgroundColor: Colors[colorScheme].background
+            },
+            tabBarLabelStyle: {
+              fontWeight: 'bold',
+              fontSize: 16
+            },
+            tabBarActiveTintColor: Colors[colorScheme].tint,
+          }}>
+          <BottomTab.Screen
+            name="Login"
+            component={LoginScreen}
+            options={({ navigation }: RootTabScreenProps<'Login'>) => ({
+              title: 'LOGIN',
+              tabBarButton: props => <CustomBarButton {...props} />
+            })}
+          />
+          <BottomTab.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{
+              title: 'REGISTRAR',
+              tabBarButton: props => <CustomBarButton {...props} />
+            }}
+          />
+        </BottomTab.Navigator>
+
+      </View>
+      
+      
+    </View>
   );
 }
 
