@@ -5,11 +5,16 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function LoginScreen({ navigation }: RootTabScreenProps<'Login'>) {
+
+  const login = async () => {
+    navigation.replace('Home')
+  }
+
   return (
     <View style={styles.container}>
       <TextInput style={styles.input} placeholder='Email' keyboardType='email-address'/>
       <TextInput style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity onPress={login} style={styles.loginButton}>
         <Text style={styles.title}> ENTRAR </Text>
       </TouchableOpacity>
       {/* <Text style={styles.title}>Login</Text> */}
