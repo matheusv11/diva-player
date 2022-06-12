@@ -8,7 +8,7 @@ import { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, TouchableOpacity, View, ImageBackground } from 'react-native';
+import { ColorSchemeName, TouchableOpacity, View, ImageBackground, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -26,7 +26,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+      <IndexNavigator />
     </NavigationContainer>
   );
 }
@@ -37,16 +37,16 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function RootNavigator() {
+function IndexNavigator() {
   return (
     <Stack.Navigator>
       {/* <Stack.Group>
         <Stack.Screen name="Login" component={BottomTabNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={BottomTabNavigator} options={{ headerShown: false }} />
       </Stack.Group> */}
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Root" component={RootNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Home" component={HomeNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
@@ -90,7 +90,7 @@ const CustomTabBar = props => (
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
+function RootNavigator() {
   const colorScheme = useColorScheme();
 
   return (
@@ -152,6 +152,66 @@ function BottomTabNavigator() {
       </View>
       
       
+    </View>
+  );
+}
+
+function HomeNavigator() {
+  const colorScheme = useColorScheme();
+
+  return (
+    <View style={{flex: 1}}>
+        <BottomTab.Navigator
+          tabBar={props => <CustomTabBar {...props}/> }
+          initialRouteName="Login"
+          screenOptions={ ({navigation}) => ({
+            headerTitleAlign: 'center',
+            headerTitleStyle: { color: 'red'},
+            headerTitle: "DIVA",
+            headerStyle: {backgroundColor: 'orange'},
+            tabBarActiveTintColor: Colors[colorScheme].tint,
+            headerRight: () => (
+              <Pressable
+                onPress={() => navigation.navigate('Modal')}
+                style={({ pressed }) => ({
+                  opacity: pressed ? 0.5 : 1,
+                })}>
+                <FontAwesome
+                  name="info-circle"
+                  size={25}
+                  color={Colors[colorScheme].text}
+                  style={{ marginRight: 15 }}
+                />
+              </Pressable>
+            )
+          })}>
+          <BottomTab.Screen
+            name="Login"
+            component={HomeScreen}
+            options={({ navigation }: RootTabScreenProps<'Login'>) => ({
+              title: 'HOME',
+              tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            })}
+          />
+          <BottomTab.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{
+              title: 'BUSCAR',
+              tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            }}
+          />
+          <BottomTab.Screen
+            name="Playlist"
+            component={RegisterScreen}
+            options={{
+              title: 'PLAYLIST',
+              // tabBarShowLabel: false,
+              tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+            }}
+          />
+        </BottomTab.Navigator>
+
     </View>
   );
 }
