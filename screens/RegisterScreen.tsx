@@ -25,6 +25,13 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
     
   };
 
+  const register = async () => {
+    // navigation.replace('Home')
+    // FAZER UM AXIOS
+    // SETAR UM TOKEN
+    navigation.navigate('Login')
+  }
+
   return (
     <View style={styles.container}>
 
@@ -35,7 +42,7 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
       <TextInput style={styles.input} placeholder='Email' keyboardType='email-address'/>
       <TextInput style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
       <TextInput style={styles.input} placeholder='Repetir Senha' keyboardType='visible-password'/>
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity onPress={register} style={styles.loginButton}>
         <Text style={styles.title}> CADASTRAR </Text>
       </TouchableOpacity>
       {/* <Text style={styles.title}>Login</Text> */}
