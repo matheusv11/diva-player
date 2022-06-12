@@ -1,15 +1,36 @@
-import { StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker'; // Pode importar sem o * também
 
-import EditScreenInfo from '../components/EditScreenInfo';
+// import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function RegisterScreen({ navigation }: RootTabScreenProps<'Register'>) {
+
+  const [profilePic, setProfilePic] = useState(null);
+
+  const pickProfile = async () => {
+    // No permissions request is necessary for launching the image library
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) setProfilePic(result.uri);
+    
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.profilePic}> 
-        <Text> Foto </Text> 
-      </View>
+
+      <TouchableOpacity onPress={pickProfile} style={styles.profilePic}>
+        {profilePic ? <Image source={{ uri: profilePic }} style={{ width: 80, height: 80, borderRadius: 50 }} /> : <Text> Foto </Text>}
+      </TouchableOpacity>
       <TextInput style={styles.input} placeholder='Nome' keyboardType='email-address'/>
       <TextInput style={styles.input} placeholder='Email' keyboardType='email-address'/>
       <TextInput style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
