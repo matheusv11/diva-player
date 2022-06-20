@@ -8,7 +8,7 @@ import { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, TouchableOpacity, View, ImageBackground, Pressable } from 'react-native';
+import { ColorSchemeName, TouchableOpacity, View, ImageBackground, Pressable, Image } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -17,6 +17,7 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
+import PlaylistScreen from '../screens/PlaylistScreen';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -176,12 +177,18 @@ function HomeNavigator() {
                 style={({ pressed }) => ({
                   opacity: pressed ? 0.5 : 1,
                 })}>
-                <FontAwesome
+                  <Image source={require('../assets/images/bang.jpg')} style={{
+                    width: 45,
+                    height: 45,
+                    borderRadius: 50,
+                    marginRight: 18
+                  }}/>
+                {/* <FontAwesome
                   name="info-circle"
                   size={25}
                   color={Colors[colorScheme].text}
                   style={{ marginRight: 15 }}
-                />
+                /> */}
               </Pressable>
             )
           })}>
@@ -203,7 +210,7 @@ function HomeNavigator() {
           />
           <BottomTab.Screen
             name="Playlist"
-            component={RegisterScreen}
+            component={PlaylistScreen}
             options={{
               title: 'PLAYLIST',
               // tabBarShowLabel: false,
