@@ -3,12 +3,13 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+import { Button } from '../components/Themed';
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, TouchableOpacity, View, ImageBackground, Pressable, Image } from 'react-native';
+import { ColorSchemeName, View, ImageBackground, Pressable, Image } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -62,28 +63,22 @@ function IndexNavigator() {
  */
 
 const CustomBarButton = ({children, onPress}) => (
-  <TouchableOpacity
+  <Button
     style={{
-      // padding: 20,
+      marginTop: 16,
       marginLeft: 12,
       marginRight: 12,
       justifyContent: 'center',
       alignItems: 'center',
+      alignContent: 'center',
+      width: 180,
+      height: 50,
+      borderRadius: 8
     }}
     onPress={onPress}
   >
-    <View style={{
-      alignContent: 'center',
-      justifyContent: 'center',
-      width: 180,
-      height: 50,
-      borderRadius: 8,
-      backgroundColor: 'black'
-    }}>
-      {children} 
-      {/* Renderizar um TEXT talvez */}
-    </View>
-  </TouchableOpacity>
+    {children}
+  </Button>
 )
 
 const CustomTabBar = props => (
@@ -112,9 +107,12 @@ function RootNavigator() {
           initialRouteName="Login"
           screenOptions={{ // Opções globais
             headerTitleAlign: 'center',
-            headerTitleStyle: { color: 'red'},
+            // headerTitleStyle: { color: 'red'},
             headerTitle: "DIVA", // SUBSTITUI OS Title das Screens
-            headerStyle: {backgroundColor: 'orange'},
+            headerStyle: {
+              elevation: 0,
+              // backgroundColor: 'orange'
+            },
             // headerTransparent: true,
             tabBarIconStyle: { display: "none" },
             tabBarStyle: { // Não precisa do styleSheet
@@ -122,9 +120,9 @@ function RootNavigator() {
               height: 70,
               alignItems: 'center',
               position: 'absolute',
-              // elevation: 0,
+              elevation: 0,
               borderTopWidth: 0,
-              backgroundColor: 'red'
+              // backgroundColor: 'red'
               // backgroundColor: Colors[colorScheme].background
             },
             tabBarLabelStyle: {
