@@ -1,8 +1,7 @@
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, Input } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
+// import Colors from '../constants/Colors';
 
 export default function LoginScreen({ navigation }: RootTabScreenProps<'Login'>) {
 
@@ -12,14 +11,11 @@ export default function LoginScreen({ navigation }: RootTabScreenProps<'Login'>)
 
   return (
     <View style={styles.container}>
-      <TextInput style={styles.input} placeholder='Email' keyboardType='email-address'/>
-      <TextInput style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
+      <Input style={styles.input} placeholder='Email' keyboardType='email-address'/>
+      <Input style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
       <TouchableOpacity onPress={login} style={styles.loginButton}>
         <Text style={styles.title}> ENTRAR </Text>
       </TouchableOpacity>
-      {/* <Text style={styles.title}>Login</Text> */}
-      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-      {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>
   );
 }
@@ -37,10 +33,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingLeft: 12,
     width: 340,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
   loginButton: {
-    backgroundColor: 'green',
+    backgroundColor: 'black',
     width: 120,
     height: 45,
     borderRadius: 6,
