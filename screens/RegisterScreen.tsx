@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'; // Pode importar sem o * também
 
-// import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { Text, View, Input, Button } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function RegisterScreen({ navigation }: RootTabScreenProps<'Register'>) {
 
-  const [profilePic, setProfilePic] = useState(null);
+  const [profilePic, setProfilePic] = useState(null); // TIPAR
 
   const pickProfile = async () => {
     // No permissions request is necessary for launching the image library
@@ -35,16 +34,16 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
   return (
     <View style={styles.container}>
 
-      <TouchableOpacity onPress={pickProfile} style={styles.profilePic}>
+      <Button onPress={pickProfile} style={styles.profilePic}>
         {profilePic ? <Image source={{ uri: profilePic }} style={{ width: 80, height: 80, borderRadius: 50 }} /> : <Text> Foto </Text>}
-      </TouchableOpacity>
-      <TextInput style={styles.input} placeholder='Nome' keyboardType='email-address'/>
-      <TextInput style={styles.input} placeholder='Email' keyboardType='email-address'/>
-      <TextInput style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
-      <TextInput style={styles.input} placeholder='Repetir Senha' keyboardType='visible-password'/>
-      <TouchableOpacity onPress={register} style={styles.loginButton}>
+      </Button>
+      <Input style={styles.input} placeholder='Nome' keyboardType='email-address'/>
+      <Input style={styles.input} placeholder='Email' keyboardType='email-address'/>
+      <Input style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
+      <Input style={styles.input} placeholder='Repetir Senha' keyboardType='visible-password'/>
+      <Button onPress={register} style={styles.loginButton}>
         <Text style={styles.title}> CADASTRAR </Text>
-      </TouchableOpacity>
+      </Button>
       {/* <Text style={styles.title}>Login</Text> */}
       {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
       {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
@@ -57,12 +56,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    bottom: 40,
+    // bottom: 40,
   },
   profilePic: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'gray',
     borderRadius: 50,
     height: 80,
     width: 80,
@@ -74,11 +72,9 @@ const styles = StyleSheet.create({
     bottom: 50,
     borderRadius: 8,
     paddingLeft: 12,
-    width: 340,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    width: 340
   },
   loginButton: {
-    backgroundColor: 'green',
     width: 120,
     height: 45,
     borderRadius: 6,
