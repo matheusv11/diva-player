@@ -3,7 +3,7 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { Text as DefaultText, View as DefaultView, TextInput as DefaultTextInput } from 'react-native';
+import { Text as DefaultText, View as DefaultView, TextInput as DefaultTextInput, TouchableOpacity as DefaultTouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -30,6 +30,7 @@ type ThemeProps = {
 export type TextProps = ThemeProps & DefaultText['props'];
 export type ViewProps = ThemeProps & DefaultView['props'];
 export type InputProps = ThemeProps & DefaultTextInput['props'];
+export type ButtonProps = ThemeProps & DefaultTouchableOpacity['props'];
 
 export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
@@ -51,4 +52,11 @@ export function Input(props: InputProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'inputText'); // TODO AUTO, LOGO NÃO HÁ PROPS PRA MUDAR ISSO
 
   return <DefaultTextInput placeholderTextColor={ color } style={[{ backgroundColor, color }, style]} {...otherProps} />;
+}
+
+export function Button(props: ButtonProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'button');
+
+  return <DefaultTouchableOpacity style={[{ backgroundColor }, style]} {...otherProps} />;
 }
