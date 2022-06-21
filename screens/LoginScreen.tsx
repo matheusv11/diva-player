@@ -1,5 +1,5 @@
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Text, View, Input } from '../components/Themed';
+import { StyleSheet } from 'react-native';
+import { Text, View, Input, Button } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 // import Colors from '../constants/Colors';
 
@@ -13,9 +13,9 @@ export default function LoginScreen({ navigation }: RootTabScreenProps<'Login'>)
     <View style={styles.container}>
       <Input style={styles.input} placeholder='Email' keyboardType='email-address'/>
       <Input style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
-      <TouchableOpacity onPress={login} style={styles.loginButton}>
+      <Button onPress={login} style={styles.loginButton}>
         <Text style={styles.title}> ENTRAR </Text>
-      </TouchableOpacity>
+      </Button>
     </View>
   );
 }
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     width: 340,
   },
   loginButton: {
-    backgroundColor: 'black',
     width: 120,
     height: 45,
     borderRadius: 6,
