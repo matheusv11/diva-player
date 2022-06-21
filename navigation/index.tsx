@@ -13,6 +13,7 @@ import { ColorSchemeName, TouchableOpacity, View, ImageBackground, Pressable, Im
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -49,7 +50,7 @@ function IndexNavigator() {
       <Stack.Screen name="Home" component={HomeNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="Modal" component={ProfileScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
