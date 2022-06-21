@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
@@ -9,6 +9,17 @@ export default function PlaylistScreen({ navigation }: RootTabScreenProps<'Home'
     <View style={styles.container}>
 
       {/* USAR UMA LIST VIEW, RECYCLER VIEW OU FLAT LIST */}
+      <View style={styles.playlistTop}>
+        <Text>Playlist</Text>
+        <TouchableOpacity>
+          <FontAwesome
+            name="plus-circle"
+            size={25}
+            // color={Colors[colorScheme].text}
+            // style={{ marginRight: 15 }}
+          />
+        </TouchableOpacity>
+      </View>
       <ScrollView>
       {[1,2,3,4,5,6,7].map((x, i) => (
         <View style={styles.musicList} key={i}>
@@ -26,6 +37,16 @@ export default function PlaylistScreen({ navigation }: RootTabScreenProps<'Home'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  playlistTop:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    // paddingLeft: 4,
+    // paddingRight: 4,
+    padding: 4, // OU MARGIN RIGHT E LEFT EM AMBOS
+    width: "100%",
+    backgroundColor: 'green'
   },
   musicList: {
     // flex: 1,
