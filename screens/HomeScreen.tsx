@@ -1,13 +1,17 @@
+import { useContext } from 'react';
+import { AuthContext } from '../components/AuthProvider';
 import { StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
+  
+  const { token } = useContext(AuthContext);
+  
   return (
     <View style={styles.container}>
-
+      <Text>{token}</Text>
       {/* USAR UMA LIST VIEW, RECYCLER VIEW OU FLAT LIST */}
       <ScrollView>
       {[1,2,3,4,5,6,7].map((x, i) => (

@@ -1,19 +1,29 @@
+import { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View, Input, Button } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-// import Colors from '../constants/Colors';
+import { AuthContext } from '../components/AuthProvider';
 
 export default function LoginScreen({ navigation }: RootTabScreenProps<'Login'>) {
 
-  const login = async () => {
-    navigation.replace('Home')
+  const { login } = useContext(AuthContext)
+
+  const initialLoginForm = {
+    email: "",
+    senha: ""
+  }
+
+  const [loginForm, setLoginForm] = useState(initialLoginForm)
+
+  const handleLogin = () => {
+    login(loginForm.email, loginForm.senha)
   }
 
   return (
     <View style={styles.container}>
-      <Input style={styles.input} placeholder='Email' keyboardType='email-address'/>
-      <Input style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
-      <Button onPress={login} style={styles.loginButton}>
+      <Input value={loginForm.email} onChangeText={text => setLoginForm({...loginForm, email: text})} style={styles.input} placeholder='Email' keyboardType='email-address'/>
+      <Input value={loginForm.senha} onChangeText={text => setLoginForm({...loginForm, senha: text})} style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
+      <Button onPress={handleLogin} style={styles.loginButton}>
         <Text style={styles.title}> ENTRAR </Text>
       </Button>
     </View>
