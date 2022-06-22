@@ -8,13 +8,14 @@ import axios from '../utils/axios'; // DEIXAR AXIOS GLOBAL
 
 export default function RegisterScreen({ navigation }: RootTabScreenProps<'Register'>) {
 
-  const [profilePic, setProfilePic] = useState(null); // TIPAR
-  const [registerForm, setRegisterForm] = useState({
+  const initialRegisterForm = {
     nome: "",
     email: "",
     senha: "",
     senhaRepetida: ""
-  });
+  }
+  const [profilePic, setProfilePic] = useState(null); // TIPAR
+  const [registerForm, setRegisterForm] = useState(initialRegisterForm);
 
   const pickProfile = async () => {
     // No permissions request is necessary for launching the image library
@@ -34,6 +35,7 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
   const register = () => {
     // VALIDAR CAMPOS
     axios.post('/usuario', registerForm).then(res => {
+      setRegisterForm(initialRegisterForm)
       navigation.navigate('Login')
     }).catch(error=> {
       // PODE VIR OUTRO ERROR
