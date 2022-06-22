@@ -4,10 +4,17 @@ import * as ImagePicker from 'expo-image-picker'; // Pode importar sem o * tamb√
 
 import { Text, View, Input, Button } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
+import axios from '../utils/axios'; // DEIXAR AXIOS GLOBAL
 
 export default function RegisterScreen({ navigation }: RootTabScreenProps<'Register'>) {
 
   const [profilePic, setProfilePic] = useState(null); // TIPAR
+  const [registerForm, setRegisterForm] = useState({
+    nome: "",
+    email: "",
+    senha: "",
+    senhaRepetida: ""
+  });
 
   const pickProfile = async () => {
     // No permissions request is necessary for launching the image library
@@ -24,29 +31,33 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
     
   };
 
-  const register = async () => {
-    // navigation.replace('Home')
-    // FAZER UM AXIOS
-    // SETAR UM TOKEN
-    navigation.navigate('Login')
+  const register = () => {
+    // VALIDAR CAMPOS
+    axios.post('/usuario', registerForm).then(res => {
+      navigation.navigate('Login')
+    }).catch(error=> {
+      // PODE VIR OUTRO ERROR
+      alert(error.response.data.error)
+    })
+  }
+
+  const setStateForm = (text: any, field: string) => { // GENERALIZAR PRA MAIS EVENTOS //https://stackoverflow.com/questions/44416541/react-native-difference-between-onchange-vs-onchangetext-of-textinput
+    setRegisterForm({...registerForm, [field]: text}) // TIPAR O FILED, JA QUE PODE CONFLTIAR COM STATE ACIMA, DIFERENCA DE OBJETOS
   }
 
   return (
     <View style={styles.container}>
-
       <Button onPress={pickProfile} style={styles.profilePic}>
         {profilePic ? <Image source={{ uri: profilePic }} style={{ width: 80, height: 80, borderRadius: 50 }} /> : <Text> Foto </Text>}
       </Button>
-      <Input style={styles.input} placeholder='Nome' keyboardType='email-address'/>
-      <Input style={styles.input} placeholder='Email' keyboardType='email-address'/>
-      <Input style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
-      <Input style={styles.input} placeholder='Repetir Senha' keyboardType='visible-password'/>
+
+      <Input value={registerForm.nome} onChangeText={text=> setStateForm(text, "nome")} style={styles.input} placeholder='Nome' keyboardType='email-address'/>
+      <Input value={registerForm.email} onChangeText={text=> setStateForm(text, "email")} style={styles.input} placeholder='Email' keyboardType='email-address'/>
+      <Input value={registerForm.senha} onChangeText={text=> setStateForm(text, "senha")} style={styles.input} placeholder='Senha' keyboardType='visible-password'/>
+      <Input value={registerForm.senhaRepetida} onChangeText={text=> setStateForm(text, "senhaRepetida")} style={styles.input} placeholder='Repetir Senha' keyboardType='visible-password'/>
       <Button onPress={register} style={styles.loginButton}>
         <Text style={styles.title}> CADASTRAR </Text>
       </Button>
-      {/* <Text style={styles.title}>Login</Text> */}
-      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-      {/* <EditScreenInfo path="/screens/TabOneScreen.tsx" /> */}
     </View>
   );
 }
