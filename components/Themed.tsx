@@ -4,6 +4,7 @@
  */
 
 import { Text as DefaultText, View as DefaultView, TextInput as DefaultTextInput, TouchableOpacity as DefaultTouchableOpacity } from 'react-native';
+import { FontAwesome as DefaultFontAwesome } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -31,6 +32,7 @@ export type TextProps = ThemeProps & DefaultText['props'];
 export type ViewProps = ThemeProps & DefaultView['props'];
 export type InputProps = ThemeProps & DefaultTextInput['props'];
 export type ButtonProps = ThemeProps & DefaultTouchableOpacity['props'];
+export type IconProps = ThemeProps & DefaultFontAwesome['props']
 
 export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
@@ -59,4 +61,12 @@ export function Button(props: ButtonProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'button');
 
   return <DefaultTouchableOpacity style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export function Icon(props: IconProps) {
+  const { style, lightColor, darkColor, ...otherProps } = props;
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+
+  // <DefaultFontAwesome color={ color } style={[{ marginBottom: -3 }, style]} {...otherProps} />
+  return <DefaultFontAwesome style={[{ color }, style]} {...otherProps} />;
 }
