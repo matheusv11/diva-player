@@ -1,31 +1,48 @@
-import { StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { useContext, useEffect, useState } from 'react';
+import { StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Text, View, Icon} from '../components/Themed';
 import { RootTabScreenProps } from '../types';
+import { AuthContext } from '../components/AuthProvider';
+import axios from '../utils/axios';
 
 export default function PlaylistScreen({ navigation }: RootTabScreenProps<'Home'>) {
+
+  const { token } = useContext(AuthContext);
+  const [playlist, setPlaylist] = useState([]);
+
+  useEffect(() => {
+    axios.get("/all-playlists", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      setPlaylist(res.data)
+    })
+    .catch(err => {
+      alert(err)
+    })
+  }, []);
+
   return (
     <View style={styles.container}>
 
-      {/* USAR UMA LIST VIEW, RECYCLER VIEW OU FLAT LIST */}
       <View style={styles.playlistTop}>
-        <Text>Playlist</Text>
+        <Text style={styles.playlistTopText}>Playlist</Text>
         <TouchableOpacity>
-          <FontAwesome
+          <Icon
             name="plus-circle"
-            size={25}
-            // color={Colors[colorScheme].text}
-            // style={{ marginRight: 15 }}
+            size={35}
           />
         </TouchableOpacity>
       </View>
       <ScrollView>
-      {[1,2,3,4,5,6,7].map((x, i) => (
-        <View style={styles.musicList} key={i}>
+      {playlist.map(play => (
+        <View style={styles.musicList} key={play.id}>
 
-            <Image source={require('../assets/images/bang.jpg')} style={styles.musicImage}/>
-            <Text style={styles.musicTitle}> Rock </Text>
+            <Image source={{ uri: play.musica_playlist[0].thumbnail }} style={styles.musicImage}/>
+            <Text style={styles.musicTitle}> {play.nome} </Text>
 
         </View>
       ))}
@@ -40,22 +57,21 @@ const styles = StyleSheet.create({
   },
   playlistTop:{
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 20,
-    // paddingLeft: 4,
-    // paddingRight: 4,
-    padding: 4, // OU MARGIN RIGHT E LEFT EM AMBOS
-    width: "100%",
-    backgroundColor: 'green'
+    padding: 4,
+    width: "100%"
+  },
+  playlistTopText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   musicList: {
-    // flex: 1,
-    // height: "25%", // DEIXAR AJUSTÁVEL AO TAMANHO DA IMAGEM, ASSIM NEM DEPENDE DE TELA
     flexDirection: 'row',
     width: "100%",
-    alignItems: 'center', // COMO A IMG OCUPA TUDO, SO CENTRALIZA O TEXTO
+    alignItems: 'center',
     marginTop: 20,
-    backgroundColor: 'black',
   },
   musicImage: {
     width: 112, 
@@ -63,18 +79,9 @@ const styles = StyleSheet.create({
     marginLeft: 18,
   },
   musicTitle: {
-    color: 'green',
     marginLeft: 6,
     marginBottom: 6,
     fontSize: 16,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    fontWeight: "bold"
+  }
 });
