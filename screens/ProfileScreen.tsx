@@ -1,28 +1,65 @@
-import { StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { useState, useContext, useEffect } from 'react';
+import { StyleSheet, Image } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
+import { AuthContext } from '../components/AuthProvider';
+import axios from '../utils/axios';
 
 export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>) {
+
+  const { token } = useContext(AuthContext)
+  const [userInfo, setUserInfo] = useState({})
+
+  useEffect(() => {
+    axios.get('/user-info', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      setUserInfo(res.data)
+    })
+    .catch(err => {
+      alert(err)
+    })
+  }, [])
   return (
     <View style={styles.container}>
 
-      {/* USAR UMA LIST VIEW, RECYCLER VIEW OU FLAT LIST */}
       <View style={styles.profileTop}>
         <Image source={require('../assets/images/bang.jpg')} style={styles.profilePic}/>
 
-        <Text>Super ultra</Text>
+        <Text>{userInfo.nome}</Text>
       </View>
-      {/* SEM SCROLL VIEW, TEM TAMANHO PRA CABER EM TELA */}
-      {[1,2,3,4].map((x, i) => (
-        <View style={styles.profileList} key={i}>
 
-            <Text style={styles.profileLabel}> Email </Text>
-            <Text style={styles.profileDescription}> math@gmail.com </Text>
+      <View style={styles.profileList}>
 
-        </View>
-      ))}
+          <Text style={styles.profileLabel}> Email </Text>
+          <Text style={styles.profileDescription}> {userInfo.email} </Text>
+
+      </View>
+
+      <View style={styles.profileList}>
+
+        <Text style={styles.profileLabel}> Nome </Text>
+        <Text style={styles.profileDescription}> {userInfo.nome} </Text>
+
+      </View>
+
+      <View style={styles.profileList}>
+
+        <Text style={styles.profileLabel}> Alterar Senha </Text>
+        <Text style={styles.profileDescription}> Alterar Senha </Text>
+
+      </View>
+
+      <View style={styles.profileList}>
+
+        <Text style={styles.profileLabel}> Versão </Text>
+        <Text style={styles.profileDescription}> 1.0.0 </Text>
+
+      </View>
     </View>
   );
 }
@@ -37,13 +74,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 4, // OU MARGIN RIGHT E LEFT EM AMBOS
     width: "100%",
-    backgroundColor: 'green'
   },
   profileList: {
     width: "100%",
     marginTop: 20,
     paddingLeft: 4,
-    backgroundColor: 'black',
   },
   profilePic: {
     width: 112, 
@@ -51,11 +86,10 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   profileLabel: {
-    color: 'blue',
     fontSize: 22,
+    fontWeight: "bold"
   },
   profileDescription: {
-    color: 'green',
     fontSize: 14,
   }
 });
