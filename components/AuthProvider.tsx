@@ -13,7 +13,7 @@ function AuthProvider({ children }){
     function login(email: string, password: string) {
         axios.post('/auth', { email: email, senha: password })
         .then(async res => {
-          await AsyncStorage.setItem('token', JSON.stringify(res.data.acessToken))
+          await AsyncStorage.setItem('token', res.data.acessToken)
           setToken(res.data.acessToken)
           navigation.dispatch(StackActions.replace('Home'))
         }).catch(error=> {
@@ -23,12 +23,29 @@ function AuthProvider({ children }){
     }
 
     useEffect(() => {
+
+      const validateToken = (token?: string) => {
+        return axios.get('/validate-token', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(() => true)
+        .catch(() => false)
+      }
+
       const getLocalToken = async () => {
         const tokenStorage = await AsyncStorage.getItem("token")
-        if(!token) {
-          setToken(tokenStorage ? JSON.parse(tokenStorage) : "")
-          navigation.dispatch(StackActions.replace('Home'))
 
+        if(tokenStorage && !(await validateToken(tokenStorage)) ){
+          // setToken("")
+          // await AsyncStorage.setItem('token', '')
+          navigation.dispatch(StackActions.replace('Root'))
+        }
+
+        if(!token && tokenStorage && await validateToken(tokenStorage)) {
+          setToken(tokenStorage)
+          navigation.dispatch(StackActions.replace('Home'))
         }
       }
 
