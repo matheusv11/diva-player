@@ -169,9 +169,8 @@ function HomeNavigator() {
           initialRouteName="Login"
           screenOptions={ ({navigation}) => ({
             headerTitleAlign: 'center',
-            headerTitleStyle: { color: 'red'},
             headerTitle: "DIVA",
-            headerStyle: {backgroundColor: 'orange'},
+            headerStyle: { elevation: 0 },
             tabBarActiveTintColor: Colors[colorScheme].tint,
             headerRight: () => (
               <Pressable
@@ -185,12 +184,6 @@ function HomeNavigator() {
                     borderRadius: 50,
                     marginRight: 18
                   }}/>
-                {/* <FontAwesome
-                  name="info-circle"
-                  size={25}
-                  color={Colors[colorScheme].text}
-                  style={{ marginRight: 15 }}
-                /> */}
               </Pressable>
             )
           })}>
@@ -199,7 +192,7 @@ function HomeNavigator() {
             component={HomeScreen}
             options={({ navigation }: RootTabScreenProps<'Login'>) => ({
               title: 'HOME',
-              tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+              tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
             })}
           />
           <BottomTab.Screen
@@ -207,7 +200,7 @@ function HomeNavigator() {
             component={RegisterScreen}
             options={{
               title: 'BUSCAR',
-              tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+              tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
             }}
           />
           <BottomTab.Screen
@@ -216,7 +209,7 @@ function HomeNavigator() {
             options={{
               title: 'PLAYLIST',
               // tabBarShowLabel: false,
-              tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+              tabBarIcon: ({ color }) => <TabBarIcon name="play" color={color} />,
             }}
           />
         </BottomTab.Navigator>
