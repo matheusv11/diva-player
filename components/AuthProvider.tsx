@@ -25,8 +25,11 @@ function AuthProvider({ children }){
     useEffect(() => {
       const getLocalToken = async () => {
         const tokenStorage = await AsyncStorage.getItem("token")
-        setToken(tokenStorage ? JSON.parse(tokenStorage) : "")
-        navigation.dispatch(StackActions.replace('Home'))
+        if(!token) {
+          setToken(tokenStorage ? JSON.parse(tokenStorage) : "")
+          navigation.dispatch(StackActions.replace('Home'))
+
+        }
       }
 
       getLocalToken();
