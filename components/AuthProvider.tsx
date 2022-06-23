@@ -18,7 +18,7 @@ function AuthProvider({ children }){
           navigation.dispatch(StackActions.replace('Home'))
         }).catch(error=> {
           console.log("ERROR", error)
-          alert(error.response.data.error)
+          alert(error)
         })
     }
 
