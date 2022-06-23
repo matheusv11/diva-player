@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../components/AuthProvider';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Image, ScrollView } from 'react-native';
 
 import { Text, View } from '../components/Themed';
@@ -9,7 +8,6 @@ import axios from '../utils/axios';
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   
-  const { token } = useContext(AuthContext);
   const [topMusic, setTopMusic] = useState([]); // LIMPAR E SETAR INICIAL
   const [randomList, setRandomList] = useState([
     "Top Músicas da Semana", 
