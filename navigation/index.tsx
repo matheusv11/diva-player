@@ -8,19 +8,18 @@ import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
 import { ColorSchemeName, View, ImageBackground, Pressable, Image } from 'react-native';
 import AuthProvider from '../components/AuthProvider';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import PlaylistScreen from '../screens/PlaylistScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -197,7 +196,7 @@ function HomeNavigator() {
           />
           <BottomTab.Screen
             name="Register"
-            component={RegisterScreen}
+            component={SearchScreen}
             options={{
               title: 'BUSCAR',
               tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
