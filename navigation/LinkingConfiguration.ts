@@ -28,6 +28,7 @@
          },
        },
        Modal: 'modal',
+       SongList: 'songList',
        NotFound: '*',
       //  Linking da Home
      },

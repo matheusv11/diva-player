@@ -14,6 +14,7 @@ import AuthProvider from '../components/AuthProvider';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ProfileScreen from '../screens/ProfileScreen';
+import SongsScreen from '../screens/SongsScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -54,6 +55,7 @@ function IndexNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ProfileScreen} />
+        <Stack.Screen name="SongList" component={SongsScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

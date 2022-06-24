@@ -58,6 +58,12 @@ export default function PlaylistScreen({ navigation }: RootTabScreenProps<'Home'
     })
   }
 
+  const songList = (song: object) => {
+    navigation.navigate("SongList", {
+      songs: song
+    });
+  }
+
   return (
     <View style={styles.container}>
       <Modal
@@ -97,7 +103,9 @@ export default function PlaylistScreen({ navigation }: RootTabScreenProps<'Home'
       {playlist.map(play => (
         <View style={styles.musicList} key={play.id}>
           <View style={styles.musicListLeft}>
-            <Image source={{ uri: play.musica_playlist[0]?.thumbnail || 'https://reactjs.org/logo-og.png' }} style={styles.musicImage}/>
+            <TouchableOpacity onPress={() => songList(play)}>
+              <Image source={{ uri: play.musica_playlist[0]?.thumbnail || 'https://reactjs.org/logo-og.png' }} style={styles.musicImage}/>
+            </TouchableOpacity>
             <Text style={styles.musicTitle}> {play.nome} </Text>
 
           </View>
