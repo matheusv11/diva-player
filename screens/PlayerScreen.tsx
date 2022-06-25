@@ -64,8 +64,8 @@ export default function PlaylistScreen({ navigation, route }: RootTabScreenProps
   
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/images/bang.jpg')} style={styles.songThumbnail}/>
-
+      <Image source={{ uri: songData.thumbnail }} style={styles.songThumbnail}/>
+      <Text style={styles.songTitle}> {songData.nome} </Text>
       <View style={styles.actionButtons}>
         <Icon name="backward" size={35} style={styles.actionIcon}/>
         <TouchableOpacity onPress={playSong}>
@@ -92,8 +92,13 @@ const styles = StyleSheet.create({
     height: 242,
   },
   actionButtons: {
-    marginTop: 82,
+    marginTop: 52,
     flexDirection: 'row',
+  },
+  songTitle: {
+    marginTop: 12,
+    fontSize: 16,
+    fontWeight: 'bold'
   },
   actionIcon: {
     marginLeft: 20,
