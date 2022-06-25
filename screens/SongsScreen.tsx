@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   },
   musicListLeft: {
     flexDirection: 'row',
+    width: "50%",
     alignItems: 'center',
   },
   musicListRight: {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   musicTitle: {
     marginLeft: 6,
     marginBottom: 6,
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: "bold"
   },
   musicTrash: {
