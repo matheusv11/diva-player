@@ -8,6 +8,7 @@ export const AuthContext = createContext({});
 
 function AuthProvider({ children }){
     const [token, setToken] = useState("");
+    const [userInfo, setUserInfo] = useState({});
     const navigation = useNavigation();
 
     function login(email: string, password: string) {
@@ -16,6 +17,7 @@ function AuthProvider({ children }){
           await AsyncStorage.setItem('token', res.data.acessToken)
           setToken(res.data.acessToken)
           navigation.dispatch(StackActions.replace('Home'))
+          getUserInfo(res.data.acessToken)
         }).catch(error=> {
           console.log("ERROR", error)
           alert(error)
@@ -26,6 +28,20 @@ function AuthProvider({ children }){
       setToken("")
       await AsyncStorage.setItem('token', "")
       navigation.dispatch(StackActions.replace("Root"));
+    }
+
+    function getUserInfo(localToken?: string) {
+      axios.get('/user-info', {
+        headers: {
+          Authorization: `Bearer ${localToken}`
+        }
+      })
+      .then(res => {
+        setUserInfo(res.data)
+      })
+      .catch(err => {
+        alert(err)
+      })
     }
 
     useEffect(() => {
@@ -52,6 +68,7 @@ function AuthProvider({ children }){
         if(!token && tokenStorage && await validateToken(tokenStorage)) {
           setToken(tokenStorage)
           navigation.dispatch(StackActions.replace('Home'))
+          getUserInfo(tokenStorage)
         }
       }
 
@@ -60,7 +77,7 @@ function AuthProvider({ children }){
     }, [])
 
     return(
-        <AuthContext.Provider value={{ nome: "JOSÉ", login, token, logout}}>
+        <AuthContext.Provider value={{ nome: "JOSÉ", login, token, logout, userInfo}}>
             {children}
         </AuthContext.Provider>
     )

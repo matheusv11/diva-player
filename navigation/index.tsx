@@ -3,6 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+import { useContext } from 'react';
 import { Button } from '../components/Themed';
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-tabs';
@@ -21,6 +22,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import PlaylistScreen from '../screens/PlaylistScreen';
 import SearchScreen from '../screens/SearchScreen';
+import { AuthContext } from '../components/AuthProvider';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -173,20 +175,24 @@ function HomeNavigator() {
             headerTitle: "DIVA",
             headerStyle: { elevation: 0 },
             tabBarActiveTintColor: Colors[colorScheme].tint,
-            headerRight: () => (
-              <Pressable
-                onPress={() => navigation.navigate('Modal')}
-                style={({ pressed }) => ({
-                  opacity: pressed ? 0.5 : 1,
-                })}>
-                  <Image source={require('../assets/images/bang.jpg')} style={{
-                    width: 45,
-                    height: 45,
-                    borderRadius: 50,
-                    marginRight: 18
-                  }}/>
-              </Pressable>
-            )
+            headerRight: () => {
+              const { userInfo } = useContext(AuthContext)
+
+              return (
+                <Pressable
+                  onPress={() => navigation.navigate('Modal')}
+                  style={({ pressed }) => ({
+                    opacity: pressed ? 0.5 : 1,
+                  })}>
+                    <Image source={{ uri: userInfo.imagem}} style={{
+                      width: 45,
+                      height: 45,
+                      borderRadius: 50,
+                      marginRight: 18
+                    }}/>
+                </Pressable>
+              )
+            }
           })}>
           <BottomTab.Screen
             name="Login"

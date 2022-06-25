@@ -29,9 +29,9 @@ export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>
     <View style={styles.container}>
 
       <View style={styles.profileTop}>
-        <Image source={require('../assets/images/bang.jpg')} style={styles.profilePic}/>
+        <Image source={{ uri: userInfo.imagem}} style={styles.profilePic}/>
 
-        <Text>{userInfo.nome}</Text>
+        <Text style={styles.profileText}>{userInfo.nome}</Text>
       </View>
 
       <View style={styles.profileList}>
@@ -83,6 +83,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 4, // OU MARGIN RIGHT E LEFT EM AMBOS
     width: "100%",
+  },
+  profileText: {
+    fontSize: 16,
+    marginTop: 20,
+    fontWeight: "bold",
   },
   profileList: {
     width: "100%",
