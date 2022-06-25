@@ -22,6 +22,12 @@ function AuthProvider({ children }){
         })
     }
 
+    async function logout() {
+      setToken("")
+      await AsyncStorage.setItem('token', "")
+      navigation.dispatch(StackActions.replace("Root"));
+    }
+
     useEffect(() => {
 
       const validateToken = (token?: string) => {
@@ -54,7 +60,7 @@ function AuthProvider({ children }){
     }, [])
 
     return(
-        <AuthContext.Provider value={{ nome: "JOSÉ", login, token}}>
+        <AuthContext.Provider value={{ nome: "JOSÉ", login, token, logout}}>
             {children}
         </AuthContext.Provider>
     )

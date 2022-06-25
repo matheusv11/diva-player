@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
@@ -8,7 +8,7 @@ import axios from '../utils/axios';
 
 export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>) {
 
-  const { token } = useContext(AuthContext)
+  const { token, logout } = useContext(AuthContext)
   const [userInfo, setUserInfo] = useState({})
 
   useEffect(() => {
@@ -24,6 +24,7 @@ export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>
       alert(err)
     })
   }, [])
+
   return (
     <View style={styles.container}>
 
@@ -58,6 +59,14 @@ export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>
 
         <Text style={styles.profileLabel}> Versão </Text>
         <Text style={styles.profileDescription}> 1.0.0 </Text>
+
+      </View>
+
+      <View style={styles.profileList}>
+        <TouchableOpacity onPress={logout}>
+          <Text style={styles.profileLabel}> Logout </Text>
+          <Text style={styles.profileDescription}> Sair do Sistema </Text>
+        </TouchableOpacity>
 
       </View>
     </View>
