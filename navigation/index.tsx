@@ -21,6 +21,7 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import PlaylistScreen from '../screens/PlaylistScreen';
+import PlayerScreen from '../screens/PlayerScreen';
 import SearchScreen from '../screens/SearchScreen';
 import { AuthContext } from '../components/AuthProvider';
 
@@ -58,6 +59,7 @@ function IndexNavigator() {
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ProfileScreen} />
         <Stack.Screen name="SongList" component={SongsScreen} />
+        <Stack.Screen name="Player" component={PlayerScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

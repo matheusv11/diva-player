@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Image, ScrollView } from 'react-native';
+import { StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
@@ -27,6 +27,12 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
     })
   }, []);
 
+  const playMusic = (musicId: number) => {
+    navigation.navigate("Player", {
+      musicId
+    })
+  }
+
   return (
     <View style={styles.container}>
       {/* USAR UMA LIST VIEW, RECYCLER VIEW OU FLAT LIST */}
@@ -38,7 +44,9 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
           <View style={styles.musicCard}>
             <ScrollView horizontal={true}>
               {topMusic.sort( () => .5 - Math.random() ).map(music=> (
-                <Image source={{ uri: music.thumbnail}} style={styles.musicImage} key={music.musicId}/>
+                <TouchableOpacity onPress={() => playMusic(music.musicId)} key={music.musicId}>
+                  <Image source={{ uri: music.thumbnail}} style={styles.musicImage}/>
+                </TouchableOpacity>
               ))}
               {/* {[1,2,3,4,5,6,7].map((y, ind) => (
                 <Image source={require('../assets/images/bang.jpg')} style={styles.musicImage} key={ind}/>
