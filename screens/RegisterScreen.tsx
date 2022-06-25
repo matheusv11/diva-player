@@ -28,18 +28,32 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
 
     console.log(result);
 
-    if (!result.cancelled) setProfilePic(result.uri);
+    if (!result.cancelled) setProfilePic(result);
     
   };
 
   const register = () => {
     // VALIDAR CAMPOS
-    axios.post('/usuario', registerForm).then(res => {
+    const localUri = profilePic.uri;
+    const filename = localUri.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename);
+    const type = match ? `image/${match[1]}` : `image`;
+  
+    const formData = new FormData();
+    formData.append("nome", registerForm.nome)
+    formData.append("email", registerForm.email)
+    formData.append("senha", registerForm.senha)
+    formData.append('profilePic', { uri: localUri, name: filename, type });
+
+    axios.post('/usuario', formData, {
+      headers:{
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(res => {
       setRegisterForm(initialRegisterForm)
       navigation.navigate('Login')
     }).catch(error=> {
-      // PODE VIR OUTRO ERROR
-      alert(error.response.data.error)
+      alert(error)
     })
   }
 
@@ -50,7 +64,7 @@ export default function RegisterScreen({ navigation }: RootTabScreenProps<'Regis
   return (
     <View style={styles.container}>
       <Button onPress={pickProfile} style={styles.profilePic}>
-        {profilePic ? <Image source={{ uri: profilePic }} style={{ width: 80, height: 80, borderRadius: 50 }} /> : <Text> Foto </Text>}
+        {profilePic ? <Image source={{ uri: profilePic.uri }} style={{ width: 80, height: 80, borderRadius: 50 }} /> : <Text> Foto </Text>}
       </Button>
 
       <Input value={registerForm.nome} onChangeText={text=> setStateForm(text, "nome")} style={styles.input} placeholder='Nome' keyboardType='email-address'/>
