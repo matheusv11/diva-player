@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState, useCallback } from 'react';
 import { StyleSheet, TouchableOpacity, Image, ScrollView, Modal } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Text, View, Icon, Input, Button } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
@@ -13,19 +14,21 @@ export default function PlaylistScreen({ navigation }: RootTabScreenProps<'Home'
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlaylist, setNewPlaylist] = useState("");
 
-  useEffect(() => {
-    axios.get("/all-playlists", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    .then(res => {
-      setPlaylist(res.data)
-    })
-    .catch(err => {
-      alert(err)
-    })
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      axios.get("/all-playlists", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        setPlaylist(res.data)
+      })
+      .catch(err => {
+        alert(err)
+      })
+    }, [])
+  );
 
   const createPlaylist = () => {
     axios.post("/playlist", { nome: newPlaylist}, {
