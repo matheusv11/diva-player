@@ -33,6 +33,7 @@ export type ViewProps = ThemeProps & DefaultView['props'];
 export type InputProps = ThemeProps & DefaultTextInput['props'];
 export type ButtonProps = ThemeProps & DefaultTouchableOpacity['props'];
 export type IconProps = ThemeProps & DefaultFontAwesome['props']
+export type RadioButtonProps = ThemeProps & { selected: boolean, label: string, style?: DefaultView['props']['style'] }
 
 export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
@@ -69,4 +70,40 @@ export function Icon(props: IconProps) {
 
   // <DefaultFontAwesome color={ color } style={[{ marginBottom: -3 }, style]} {...otherProps} />
   return <DefaultFontAwesome style={[{ color }, style]} {...otherProps} />;
+}
+
+export function RadioButton(props: RadioButtonProps) {
+  const { lightColor, darkColor, selected, style, label } = props;
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+
+  return (
+    <DefaultView style={[{ backgroundColor, flexDirection: 'row' }, style]}>
+      <DefaultView style={{
+        height: 24,
+        width: 24,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: '#000',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        {
+          selected ? <DefaultView style={{
+            height: 12,
+            width: 12,
+            borderRadius: 6,
+            backgroundColor: '#000',
+          }}/> : null
+        }
+      </DefaultView>
+
+      <Text style={{
+        fontWeight: 'bold',
+        left: 6,
+        minWidth: 100,
+        maxWidth: 150
+      }}> {label} </Text>
+
+    </DefaultView>
+  );
 }
