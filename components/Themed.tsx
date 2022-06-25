@@ -74,16 +74,16 @@ export function Icon(props: IconProps) {
 
 export function RadioButton(props: RadioButtonProps) {
   const { lightColor, darkColor, selected, style, label } = props;
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   return (
-    <DefaultView style={[{ backgroundColor, flexDirection: 'row' }, style]}>
+    <DefaultView style={[{ flexDirection: 'row' }, style]}>
       <DefaultView style={{
         height: 24,
         width: 24,
         borderRadius: 12,
         borderWidth: 2,
-        borderColor: '#000',
+        borderColor: backgroundColor,
         alignItems: 'center',
         justifyContent: 'center',
       }}>
@@ -92,7 +92,7 @@ export function RadioButton(props: RadioButtonProps) {
             height: 12,
             width: 12,
             borderRadius: 6,
-            backgroundColor: '#000',
+            backgroundColor: backgroundColor,
           }}/> : null
         }
       </DefaultView>
