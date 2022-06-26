@@ -15,17 +15,30 @@ export default function PlaylistScreen({ navigation,route }: RootTabScreenProps<
     setSongs(route.params.songs.musica_playlist)
   }, [])
 
+  const playMusic = (musicId: string) => {
+    navigation.navigate("Player", {
+      musicList: songs.map(e => {
+        e.musicId = e.musica_id
+        return e
+      }),
+      selected: musicId
+    })
+  }
+
   return (
     <View style={styles.container}>
 
       <ScrollView>
         {songs.map(song => (
             <View style={styles.musicList} key={song.id}>
+
+              <TouchableOpacity onPress={() => playMusic(song.musica_id)}>
                 <View style={styles.musicListLeft}>
                     <Image source={{ uri: song.thumbnail }} style={styles.musicImage}/>
                     <Text style={styles.musicTitle}> {song.nome} </Text>
 
                 </View>
+              </TouchableOpacity>
 
             </View>
         ))}
