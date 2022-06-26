@@ -10,12 +10,12 @@ import axios from '../utils/axios';
 export default function PlaylistScreen({ navigation, route }: RootTabScreenProps<'Home'>) {
 
   const { token } = useContext(AuthContext);
-  const [songData, setSongData] = useState({}); // OS DADOS
+  const [songData, setSongData] = useState({}); // OS DADOS DA MÚSICA ATUAL
   const [isPlaying, setIsPlaying] = useState(false); // STATUS DE TOQUE
+  // const [playingSound, setPlayingSound] = useState("") // MusicId do que está tocando
   const [sound, setSound] = useState(); // OQUE TOCA
 
-  useEffect(() => {
-    const musicId = route.params.musicId
+  const getMusic = (musicId: number) => {
     axios.get(`/musica/${musicId}`)
     .then(res => {
       setSongData(res.data)
@@ -23,6 +23,12 @@ export default function PlaylistScreen({ navigation, route }: RootTabScreenProps
     .catch(err => {
       alert(err)
     })
+  }
+
+  useEffect(() => {
+    const { selected, musicList } = route.params // PASSAR PRA STATES?
+    const musicId = musicList.find(e => e.musicId === selected).musicId
+    getMusic(musicId)
   }, [])
 
     useEffect(() => {
@@ -30,9 +36,10 @@ export default function PlaylistScreen({ navigation, route }: RootTabScreenProps
       ? () => {
           console.log('Unloading Sound');
           sound.unloadAsync();
+          setSound("")
         }
       : undefined;
-  }, [sound]);
+  }, [sound, songData]);
   
   const playSong = async () => {
     setIsPlaying(!isPlaying)
@@ -55,23 +62,45 @@ export default function PlaylistScreen({ navigation, route }: RootTabScreenProps
     await soundToPlay.playAsync(); 
   }
 
-  const forward = () => {
-    // if(sound) {
-    //   console.log("Algo está tocando")
-    //   sound.unloadAsync();
-    // }
-  }
+  const passMusic = (forward: boolean) => {
+    const { selected, musicList } = route.params;
+    console.log("Selecionado", selected)
+    
+    const actualItem = musicList.find(e => e.musicId === selected) // REPETIDO
+
+    console.log("Item Atual", actualItem)
+    const nextItemIndex = ( musicList.indexOf(actualItem) + (forward ? 1 : - 1 ) )
+    
+    // NEGATIVO COMEÇA DO ULTIMO E MAIOR QUE O TAMANHO COMEÇA DO 0
+    console.log("Proxima", nextItemIndex)
+
+    // const nextMusicId =  musicList[nextItemIndex].musicId // ESSE CASO MERECIA UM LET
   
+    const nextMusicId = nextItemIndex < 0 
+    ? musicList[musicList.length - 1].musicId 
+    : nextItemIndex > musicList.length - 1
+    ? musicList[0].musicId
+    : musicList[nextItemIndex].musicId
+
+    route.params.selected = nextMusicId
+    
+    getMusic(nextMusicId)
+    setIsPlaying(false) //PASSAR PRA OUTRO METODO DENTRO DO WATCH COM O unlick
+
+  }
+
   return (
     <View style={styles.container}>
       <Image source={{ uri: songData.thumbnail }} style={styles.songThumbnail}/>
       <Text style={styles.songTitle}> {songData.nome} </Text>
       <View style={styles.actionButtons}>
-        <Icon name="backward" size={35} style={styles.actionIcon}/>
+        <TouchableOpacity onPress={() => passMusic(false)}>
+          <Icon name="backward" size={35} style={styles.actionIcon}/>
+        </TouchableOpacity>
         <TouchableOpacity onPress={playSong}>
           <Icon name={!isPlaying ? "play" : "pause"} size={35} style={styles.actionIcon}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={forward}>
+        <TouchableOpacity onPress={() => passMusic(true)}>
           <Icon name="forward" size={35} style={styles.actionIcon}/>
         </TouchableOpacity>
       </View>

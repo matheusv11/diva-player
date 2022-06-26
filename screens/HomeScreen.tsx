@@ -29,7 +29,8 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
 
   const playMusic = (musicId: number) => {
     navigation.navigate("Player", {
-      musicId
+      musicList: topMusic,
+      selected: musicId
     })
   }
 
