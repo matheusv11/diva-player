@@ -59,6 +59,13 @@ export default function SearchScreen({ navigation }: RootTabScreenProps<'Home'>)
     .catch(err => alert(err))
   }
 
+  const playMusic = (musicId: number) => {
+    navigation.navigate("Player", {
+      musicList: songs,
+      selected: musicId
+    })
+  }
+
   return (
     <View style={styles.container}>
       <Modal
@@ -101,10 +108,12 @@ export default function SearchScreen({ navigation }: RootTabScreenProps<'Home'>)
       <ScrollView>
       {songs.map(song => (
         <View style={styles.musicList} key={song.musicId}>
-          <View style={styles.musicListLeft}>
-            <Image source={{ uri: song.thumbnail }} style={styles.musicImage}/>
-            <Text numberOfLines={4} ellipsizeMode='tail' style={styles.musicTitle}> {song.name} </Text>
-          </View>
+          <TouchableOpacity onPress={() => playMusic(song.musicId)}>
+            <View style={styles.musicListLeft}>
+              <Image source={{ uri: song.thumbnail }} style={styles.musicImage}/>
+              <Text numberOfLines={4} ellipsizeMode='tail' style={styles.musicTitle}> {song.name} </Text>
+            </View>
+          </TouchableOpacity>
 
           <View style={styles.musicListRight}>
             <TouchableOpacity onPress={() => getPlaylists(song)}>
