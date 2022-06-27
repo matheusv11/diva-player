@@ -174,7 +174,12 @@ function HomeNavigator() {
           initialRouteName="Login"
           screenOptions={ ({navigation}) => ({
             headerTitleAlign: 'center',
-            headerTitle: "DIVA",
+            headerTitle: props => (
+              <Image
+              style={{ width: 120, height: 120 }}
+              source={require('../assets/images/diva-logo.png')}
+              />
+            ),
             headerStyle: { elevation: 0 },
             tabBarActiveTintColor: Colors[colorScheme].tint,
             headerRight: () => {
