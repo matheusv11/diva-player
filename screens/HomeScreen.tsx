@@ -12,9 +12,9 @@ export default function HomeScreen({ navigation }: RootTabScreenProps<'Home'>) {
   const [randomList, setRandomList] = useState([
     "Top Músicas da Semana", 
     "Suas Favoritas", 
-    "MORBIUS", 
-    "Para Curar o Chifre",
-    "Spotligth"
+    "Mais tocadas", 
+    "Baseadas em seu perfil",
+    "Spotlight"
   ])
 
   useEffect(()=> {
