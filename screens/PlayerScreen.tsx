@@ -1,28 +1,77 @@
 import { useContext, useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { Audio } from 'expo-av';
+import Slider from '@react-native-community/slider'
 
 import { Text, View, Icon} from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import { AuthContext } from '../components/AuthProvider';
 import axios from '../utils/axios';
+import ytConfig from '../config/yt-music';
 
 export default function PlaylistScreen({ navigation, route }: RootTabScreenProps<'Home'>) {
 
   const { token } = useContext(AuthContext);
   const [songData, setSongData] = useState({}); // OS DADOS DA MÚSICA ATUAL
   const [isPlaying, setIsPlaying] = useState(false); // STATUS DE TOQUE
-  // const [playingSound, setPlayingSound] = useState("") // MusicId do que está tocando
   const [sound, setSound] = useState(); // OQUE TOCA
+  
+  const [currentPosition, setCurrentPosition] = useState(0)
 
   const getMusic = (musicId: number) => {
-    axios.get(`/musica/${musicId}`)
-    .then(res => {
-      setSongData(res.data)
+    axios.post("https://music.youtube.com/youtubei/v1/player", {videoId: musicId, ...ytConfig.playerParams })
+    .then(({ data: response }) => {
+      // VALIDAR SE SEMPRE EXISTE O AUDIO
+      const {signatureCipher: encodedLink, url: urlVideo} = response.streamingData.adaptiveFormats
+      .find(e => e.itag === 251)
+  
+      if(urlVideo) {
+        setSongData({
+          nome: response.videoDetails.title,
+          thumbnail: response.videoDetails.thumbnail.thumbnails[0].url,
+          url: urlVideo
+        })
+      }
+  
+      // ENCODED
+      const encodedSignature = encodedLink.split("&")[0].replace("s=", "")
+      const encodedUrl = encodedLink.split("&")[2].replace("url=", "")
+  
+      // SIGNATURE DECODE
+      const reverseSignature = decodeURIComponent(encodedSignature)
+                               .split("").reverse().join("")
+  
+      const hydrateSignature = reverseSignature.slice(0, reverseSignature.length - 3) // USAR FILTER
+  
+      const splitHydrateSignature = hydrateSignature.split("")
+  
+      const signatureEncoded = [...splitHydrateSignature]
+      signatureEncoded[48] = splitHydrateSignature[0]
+      signatureEncoded[0] = splitHydrateSignature[48]
+  
+      //DECODED
+      const decodedUrl = decodeURIComponent(encodedUrl)
+      const decodedSignature = signatureEncoded.join("")
+  
+      const musicLink = `${decodedUrl}&sig=${decodedSignature}`
+
+      setSongData({
+        nome: response.videoDetails.title,
+        thumbnail: response.videoDetails.thumbnail.thumbnails[0].url,
+        url: musicLink
+      })
     })
     .catch(err => {
       alert(err)
     })
+
+    // axios.get(`/musica/${musicId}`)
+    // .then(res => {
+    //   setSongData(res.data)
+    // })
+    // .catch(err => {
+    //   alert(err)
+    // })
   }
 
   useEffect(() => {
@@ -48,15 +97,19 @@ export default function PlaylistScreen({ navigation, route }: RootTabScreenProps
       return isPlaying ? sound.pauseAsync() : sound.playAsync();
     }
 
-    const { sound: soundToPlay } = await Audio.Sound.createAsync(
+    console.log("Dados do audio", songData.url)
+    const { sound: soundToPlay, status } = await Audio.Sound.createAsync(
        {
          headers: {
           "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36"
          },
          uri: songData.url
        }
-    );
-      
+    ).catch(e => {
+      console.log("ERRO AO REPRODUZIR", e)
+    });
+    
+    console.log("AUDIO", status)
     setSound(soundToPlay)
     console.log('Playing Sound');
     await soundToPlay.playAsync(); 
@@ -93,6 +146,17 @@ export default function PlaylistScreen({ navigation, route }: RootTabScreenProps
     <View style={styles.container}>
       <Image source={{ uri: songData.thumbnail }} style={styles.songThumbnail}/>
       <Text style={styles.songTitle}> {songData.nome} </Text>
+
+      {/* <Slider
+        style={{ width: 270, height: 40}}
+        minimumValue={0}
+        maximumValue={1}
+        
+        // minimumTrackTintColor
+        // maximumTrackTintColor
+        // value=
+      /> */}
+
       <View style={styles.actionButtons}>
         <TouchableOpacity onPress={() => passMusic(false)}>
           <Icon name="backward" size={35} style={styles.actionIcon}/>
@@ -121,7 +185,7 @@ const styles = StyleSheet.create({
     height: 242,
   },
   actionButtons: {
-    marginTop: 52,
+    marginTop: 42,
     flexDirection: 'row',
   },
   songTitle: {

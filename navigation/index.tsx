@@ -116,7 +116,12 @@ function RootNavigator() {
           screenOptions={{ // Opções globais
             headerTitleAlign: 'center',
             // headerTitleStyle: { color: 'red'},
-            headerTitle: "DIVA", // SUBSTITUI OS Title das Screens
+            headerTitle: props => (
+              <Image
+              style={{ width: 120, height: 120 }}
+              source={require('../assets/images/diva-logo.png')}
+              />
+            ), // SUBSTITUI OS Title das Screens
             headerStyle: {
               elevation: 0,
               // backgroundColor: 'orange'
