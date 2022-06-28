@@ -26,7 +26,7 @@ export default function PlaylistScreen({ navigation, route }: RootTabScreenProps
       .find(e => e.itag === 251)
   
       if(urlVideo) {
-        setSongData({
+        return setSongData({
           nome: response.videoDetails.title,
           thumbnail: response.videoDetails.thumbnail.thumbnails[0].url,
           url: urlVideo
