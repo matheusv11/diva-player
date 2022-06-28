@@ -4,7 +4,7 @@
     "slug": "diva-player",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/diva-logo.png",
+    "icon": "./assets/images/diva-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -26,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.matheusv11.divaplayer"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
