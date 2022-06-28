@@ -9,8 +9,8 @@ export default function LoginScreen({ navigation }: RootTabScreenProps<'Login'>)
   const { login } = useContext(AuthContext)
 
   const initialLoginForm = {
-    email: "math@gmail.com",
-    senha: "ikarin123"
+    email: "",
+    senha: ""
   }
 
   const [loginForm, setLoginForm] = useState(initialLoginForm)
