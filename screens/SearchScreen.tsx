@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, Image, ScrollView, Modal } from 'react-na
 import { Input, Text, View, Icon, Button, RadioButton} from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import axios from '../utils/axios';
-import { AuthContext } from '../components/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 
 export default function SearchScreen({ navigation }: RootTabScreenProps<'Home'>) {
 

@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import { Text, View, Icon, Input, Button } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { AuthContext } from '../components/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 import axios from '../utils/axios';
 
 export default function PlaylistScreen({ navigation }: RootTabScreenProps<'Home'>) {

@@ -3,7 +3,7 @@ import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { AuthContext } from '../components/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 import axios from '../utils/axios';
 
 export default function ProfileScreen({ navigation }: RootTabScreenProps<'Home'>) {

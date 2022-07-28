@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, Image, ScrollView, Modal } from 'react-na
 
 import { Text, View, Icon, Input, Button } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { AuthContext } from '../components/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 import axios from '../utils/axios';
 
 export default function PlaylistScreen({ navigation,route }: RootTabScreenProps<'Home'>) {

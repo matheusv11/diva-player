@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text, View, Input, Button } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { AuthContext } from '../components/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 
 export default function LoginScreen({ navigation }: RootTabScreenProps<'Login'>) {
 

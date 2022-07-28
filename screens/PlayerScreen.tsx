@@ -5,7 +5,7 @@ import Slider from '@react-native-community/slider'
 
 import { Text, View, Icon} from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { AuthContext } from '../components/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 import axios from '../utils/axios';
 import ytConfig from '../config/yt-music';
 

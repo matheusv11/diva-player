@@ -10,7 +10,7 @@ import { createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ColorSchemeName, View, ImageBackground, Pressable, Image } from 'react-native';
-import AuthProvider from '../components/AuthProvider';
+import AuthProvider from '../contexts/AuthProvider';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -23,7 +23,7 @@ import HomeScreen from '../screens/HomeScreen';
 import PlaylistScreen from '../screens/PlaylistScreen';
 import PlayerScreen from '../screens/PlayerScreen';
 import SearchScreen from '../screens/SearchScreen';
-import { AuthContext } from '../components/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
